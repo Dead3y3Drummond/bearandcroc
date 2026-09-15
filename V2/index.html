@@ -11,7 +11,7 @@
 
 <header class="site-header">
   <a class="brand" href="#top"><span class="brand-main">BEAR <span>&</span> CROC</span><span class="brand-sub">NOXON, MONTANA</span></a>
-  <nav><a href="#capabilities">Capabilities</a><a href="#continuity">Continuity</a><a href="#health-check">Health Check</a><a class="cta" href="mailto:sales@bearandcroc.com">Contact</a></nav>
+  <nav><a href="#capabilities">Capabilities</a><a href="#continuity">Continuity</a><a href="#health-check">Health Check</a><a class="cta" href="#contact">Contact</a></nav>
 </header>
 
 <main id="top">
@@ -138,7 +138,7 @@
       <label><input type="radio" name="knowledge" value="We would be in trouble" data-score="5"><span>We would be in trouble</span></label>
     </div></fieldset></div>
 
-    <div class="health-submit"><button class="button primary" type="submit">See Your Equipment Continuity Profile</button><p>Nothing is sent until you choose to email the assessment.</p></div>
+    <div class="health-submit"><button class="button primary" type="submit">See Your Equipment Continuity Profile</button><p>Nothing is sent until you choose to send the assessment.</p></div>
   </form>
 
   <div id="result" class="result" hidden>
@@ -148,12 +148,12 @@
     <div id="notes" class="notes"></div>
 
     <div class="lead">
-      <div><p class="mini">SEND THE ASSESSMENT TO BEAR & CROC</p><p>Add your contact information and send the assessment directly to <strong>sales@bearandcroc.com</strong>.</p></div>
+      <div><p class="mini">SEND THE ASSESSMENT TO BEAR & CROC</p><p>Add your name and email. Company and phone are optional.</p></div>
       <div class="fields">
         <label>Name<input id="lead-name" type="text" autocomplete="name"></label>
-        <label>Company<input id="lead-company" type="text" autocomplete="organization"></label>
         <label>Email<input id="lead-email" type="email" autocomplete="email"></label>
-        <label>Phone<input id="lead-phone" type="tel" autocomplete="tel"></label>
+        <label>Company <em>optional</em><input id="lead-company" type="text" autocomplete="organization"></label>
+        <label>Phone <em>optional</em><input id="lead-phone" type="tel" autocomplete="tel"></label>
       </div>
       <button id="email-assessment" class="button primary" type="button">Send My Assessment</button><p id="send-status" role="status" aria-live="polite" style="grid-column:2;margin:0;color:#bbb"></p>
     </div>
@@ -161,10 +161,24 @@
 </div>
 </section>
 
-<section class="section">
+<section id="contact" class="section">
   <div class="wrap two-col">
     <div><p class="kicker">START WITH THE MACHINE</p><h2>Tell us what is happening.</h2><p>Service problem, controls issue, aging equipment, project stuck between vendors, or a plant that needs a better maintenance operating system.</p></div>
-    <div class="contact-card"><p class="mini">BEAR & CROC</p><p class="big">Noxon, Montana</p><p>Industrial thermal process equipment</p><a class="button primary" href="mailto:sales@bearandcroc.com">sales@bearandcroc.com</a></div>
+    <form id="contact-form" class="contact-card contact-form">
+      <p class="mini">CONTACT BEAR & CROC</p>
+      <p class="big">Start simple.</p>
+      <p>Give us enough to know who you are and what is happening. We can sort out the rest with you.</p>
+      <input class="honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="contact-fields">
+        <label>Name<input name="name" required autocomplete="name"></label>
+        <label>Email<input name="email" type="email" required autocomplete="email"></label>
+        <label>Company <em>optional</em><input name="company" autocomplete="organization"></label>
+        <label>Phone <em>optional</em><input name="phone" type="tel" autocomplete="tel"></label>
+      </div>
+      <label class="contact-message">What’s happening?<textarea name="message" rows="4" required placeholder="Machine, problem, project, or whatever you need us to know."></textarea></label>
+      <button id="contact-submit" class="button primary" type="submit">Send to Bear & Croc</button>
+      <p id="contact-status" class="contact-status" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
 </main>
