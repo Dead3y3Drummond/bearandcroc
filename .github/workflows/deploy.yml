@@ -1,0 +1,63 @@
+name: Deploy Bear & Croc V2
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "V2/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bearandcroc-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy V2 to Hostmonster
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Validate deployment secrets
+        shell: bash
+        env:
+          BNC_FTP_SERVER: ${{ secrets.BNC_FTP_SERVER }}
+          BNC_FTP_USERNAME: ${{ secrets.BNC_FTP_USERNAME }}
+          BNC_FTP_PASSWORD: ${{ secrets.BNC_FTP_PASSWORD }}
+          BNC_FTP_SERVER_DIR: ${{ secrets.BNC_FTP_SERVER_DIR }}
+          BNC_RESEND_API_KEY: ${{ secrets.BNC_RESEND_API_KEY }}
+        run: |
+          test -n "$BNC_FTP_SERVER"
+          test -n "$BNC_FTP_USERNAME"
+          test -n "$BNC_FTP_PASSWORD"
+          test -n "$BNC_FTP_SERVER_DIR"
+          test -n "$BNC_RESEND_API_KEY"
+
+      - name: Create private Resend configuration
+        shell: bash
+        env:
+          BNC_RESEND_API_KEY: ${{ secrets.BNC_RESEND_API_KEY }}
+        run: |
+          node -e 'const fs=require("fs"); const key=process.env.BNC_RESEND_API_KEY; fs.writeFileSync("V2/.bearandcroc-secrets.php", "<?php\nreturn [\x27resend_api_key\x27 => " + JSON.stringify(key) + "];\n");'
+
+      - name: Deploy V2
+        uses: SamKirkland/FTP-Deploy-Action@110f9186c050f71550953127052e77650219c287
+        with:
+          server: ${{ secrets.BNC_FTP_SERVER }}
+          username: ${{ secrets.BNC_FTP_USERNAME }}
+          password: ${{ secrets.BNC_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./V2/
+          server-dir: ${{ secrets.BNC_FTP_SERVER_DIR }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            README.md
