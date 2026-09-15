@@ -26,3 +26,5 @@ GitHub Actions deploys the contents of `V2/` to Hostmonster over explicit FTPS. 
 Run **Actions → Deploy Bear & Croc V2 → Run workflow** for the first deployment. Later pushes that change files inside `V2/` deploy automatically.
 
 The workflow generates `.bearandcroc-secrets.php` only in the deployment workspace and uploads it with the site. It is never committed. `V2/.htaccess` blocks web access to that file.
+
+Production deployment is managed from this repository; `V2/` is the source of truth for the live site.
