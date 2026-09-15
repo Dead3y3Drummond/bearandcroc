@@ -8,6 +8,17 @@
     s<=23?['HIGH CONTINUITY RISK','Your maintenance system is carrying significant continuity risk.','Several parts of the operation appear dependent on tribal knowledge, reactive maintenance or fragmented coordination. The immediate goal should be to identify critical assets, preserve their history and establish clear priorities and ownership.']:
     ['CRITICAL CONTINUITY RISK','Your operation is vulnerable to repeated failures, lost knowledge and reactive decision-making.','This profile suggests the plant may be relying heavily on specific people, improvised history and firefighting. A structured equipment record and active maintenance operating rhythm could materially reduce risk.'];
 
+  async function sendPayload(payload){
+    const response=await fetch('submit-assessment.php',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok || !data.ok) throw new Error(data.error||'Unable to send.');
+    return data;
+  }
+
   function collect(){
     const names=['furnaces','condition','age','history','downtime','nextmove','vendors','knowledge']; let score=0, d={};
     names.forEach(n=>{const e=one(n);d[n]=e?e.value:'';if(e)score+=Number(e.dataset.score||0)});
@@ -29,12 +40,14 @@
     notes.innerHTML='<p class="mini">WHAT STANDS OUT</p><ul>'+standouts(d).map(x=>'<li>'+x+'</li>').join('')+'</ul>';
     result.hidden=false; result.dataset.assessment=JSON.stringify(d); result.scrollIntoView({behavior:'smooth',block:'start'});
   });
+
   document.getElementById('email-assessment').addEventListener('click',async()=>{
     if(!result.dataset.assessment)return;
     const button=document.getElementById('email-assessment');
     const status=document.getElementById('send-status');
     const d=JSON.parse(result.dataset.assessment), p=prof(d.score);
     const payload={
+      kind:'assessment',
       assessment:d,
       profile:p[0],
       name:document.getElementById('lead-name').value.trim(),
@@ -42,27 +55,52 @@
       email:document.getElementById('lead-email').value.trim(),
       phone:document.getElementById('lead-phone').value.trim()
     };
-    if(!payload.name || !payload.company || !payload.email){
-      status.textContent='Please add your name, company, and email.';
+    if(!payload.name || !payload.email){
+      status.textContent='Please add your name and email.';
       return;
     }
     button.disabled=true;
     button.textContent='Sending…';
     status.textContent='';
     try{
-      const response=await fetch('submit-assessment.php',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(payload)
-      });
-      const data=await response.json().catch(()=>({}));
-      if(!response.ok || !data.ok) throw new Error(data.error||'Unable to send assessment.');
+      await sendPayload(payload);
       button.textContent='Assessment Sent';
       status.textContent='Thank you. Bear & Croc has received your assessment.';
     }catch(err){
       button.disabled=false;
       button.textContent='Send My Assessment';
-      status.textContent='Could not send right now. Please email sales@bearandcroc.com.';
+      status.textContent='Could not send right now. Please try again in a moment.';
+    }
+  });
+
+  const contactForm=document.getElementById('contact-form');
+  contactForm.addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(!contactForm.reportValidity())return;
+    const button=document.getElementById('contact-submit');
+    const status=document.getElementById('contact-status');
+    const fd=new FormData(contactForm);
+    const payload={
+      kind:'contact',
+      website:String(fd.get('website')||''),
+      name:String(fd.get('name')||'').trim(),
+      email:String(fd.get('email')||'').trim(),
+      company:String(fd.get('company')||'').trim(),
+      phone:String(fd.get('phone')||'').trim(),
+      message:String(fd.get('message')||'').trim()
+    };
+    button.disabled=true;
+    button.textContent='Sending…';
+    status.textContent='';
+    try{
+      await sendPayload(payload);
+      button.textContent='Message Sent';
+      status.textContent='Got it. Bear & Croc has your message.';
+      contactForm.querySelectorAll('input:not([name="website"]), textarea').forEach(el=>el.disabled=true);
+    }catch(err){
+      button.disabled=false;
+      button.textContent='Send to Bear & Croc';
+      status.textContent='Could not send right now. Please try again in a moment.';
     }
   });
 })();
