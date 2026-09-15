@@ -31,13 +31,11 @@ jobs:
           BNC_FTP_SERVER: ${{ secrets.BNC_FTP_SERVER }}
           BNC_FTP_USERNAME: ${{ secrets.BNC_FTP_USERNAME }}
           BNC_FTP_PASSWORD: ${{ secrets.BNC_FTP_PASSWORD }}
-          BNC_FTP_SERVER_DIR: ${{ secrets.BNC_FTP_SERVER_DIR }}
           BNC_RESEND_API_KEY: ${{ secrets.BNC_RESEND_API_KEY }}
         run: |
           test -n "$BNC_FTP_SERVER"
           test -n "$BNC_FTP_USERNAME"
           test -n "$BNC_FTP_PASSWORD"
-          test -n "$BNC_FTP_SERVER_DIR"
           test -n "$BNC_RESEND_API_KEY"
 
       - name: Create private Resend configuration
@@ -56,7 +54,7 @@ jobs:
           protocol: ftps
           port: 21
           local-dir: ./V2/
-          server-dir: ${{ secrets.BNC_FTP_SERVER_DIR }}
+          server-dir: /
           exclude: |
             **/.git*
             **/.git*/**
