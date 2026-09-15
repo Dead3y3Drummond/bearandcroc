@@ -1,0 +1,6 @@
+# Protect the deployment-generated Resend configuration.
+<FilesMatch "^\.bearandcroc-secrets\.php$">
+    Require all denied
+</FilesMatch>
+
+Options -Indexes
