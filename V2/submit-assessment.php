@@ -18,8 +18,21 @@ if ($length <= 0 || $length > 30000) {
 }
 
 $apiKey = getenv('RESEND_API_KEY');
+
+// Shared hosting does not always expose environment variables to PHP.
+// The deployment workflow creates this ignored, web-blocked configuration file.
 if (!$apiKey) {
-    error_log('Bear & Croc website: RESEND_API_KEY is not configured.');
+    $secretFile = __DIR__ . '/.bearandcroc-secrets.php';
+    if (is_file($secretFile)) {
+        $secrets = require $secretFile;
+        if (is_array($secrets) && !empty($secrets['resend_api_key'])) {
+            $apiKey = (string)$secrets['resend_api_key'];
+        }
+    }
+}
+
+if (!$apiKey) {
+    error_log('Bear & Croc website: Resend API key is not configured.');
     http_response_code(503);
     echo json_encode(['ok' => false, 'error' => 'Email service is not configured']);
     exit;
