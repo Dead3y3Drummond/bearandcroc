@@ -56,6 +56,8 @@ $name = clean($input['name'] ?? '', 120);
 $company = clean($input['company'] ?? '', 160);
 $email = filter_var(trim((string)($input['email'] ?? '')), FILTER_VALIDATE_EMAIL);
 $phone = clean($input['phone'] ?? '', 80);
+$leadId = clean($input['leadId'] ?? '', 100);
+$attr = is_array($input['attribution'] ?? null) ? $input['attribution'] : [];
 
 if (!$name || !$email) {
     http_response_code(422);
@@ -67,6 +69,20 @@ if (!empty($input['website'])) {
     echo json_encode(['ok' => true]);
     exit;
 }
+
+$sourceFields = [
+    'Lead ID' => $leadId ?: '-',
+    'First source' => clean($attr['firstSource'] ?? '', 200) ?: '-',
+    'First medium' => clean($attr['firstMedium'] ?? '', 120) ?: '-',
+    'First campaign' => clean($attr['firstCampaign'] ?? '', 200) ?: '-',
+    'First referrer' => clean($attr['firstReferrer'] ?? '', 600) ?: '-',
+    'First landing page' => clean($attr['firstLandingPage'] ?? '', 600) ?: '-',
+    'Latest source' => clean($attr['latestSource'] ?? '', 200) ?: '-',
+    'Latest medium' => clean($attr['latestMedium'] ?? '', 120) ?: '-',
+    'Latest campaign' => clean($attr['latestCampaign'] ?? '', 200) ?: '-',
+    'Latest referrer' => clean($attr['latestReferrer'] ?? '', 600) ?: '-',
+    'Submission page' => clean($attr['submissionPage'] ?? '', 600) ?: '-'
+];
 
 if ($kind === 'contact') {
     $message = clean($input['message'] ?? '', 4000);
@@ -117,6 +133,8 @@ if ($kind === 'contact') {
     $heading = 'Bear & Croc Equipment Health Check';
 }
 
+$fields = array_merge($fields, $sourceFields);
+
 $text = $heading . "\n\n";
 foreach ($fields as $label => $value) $text .= $label . ': ' . $value . "\n";
 $text .= "\nSubmitted from bearandcroc.com";
@@ -161,4 +179,4 @@ if ($response === false || $status < 200 || $status >= 300) {
     exit;
 }
 
-echo json_encode(['ok' => true]);
+echo json_encode(['ok' => true, 'lead_id' => $leadId ?: null]);
