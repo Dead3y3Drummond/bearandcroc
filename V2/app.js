@@ -17,16 +17,16 @@
   const safeUrl=value=>{
     try{return value?new URL(value,location.href).toString():''}catch{return ''}
   };
-  const externalReferrer=value=>{
+  const usefulReferrer=value=>{
     try{
       if(!value)return '';
       const u=new URL(value);
-      return ecosystemDomains.some(d=>u.hostname===d||u.hostname.endsWith('.'+d))?'':u.toString();
+      return u.hostname===location.hostname?'':u.toString();
     }catch{return ''}
   };
   const touch=()=>{
     const q=new URLSearchParams(location.search);
-    const ref=externalReferrer(document.referrer);
+    const ref=usefulReferrer(document.referrer);
     const source=q.get('utm_source')||q.get('source')||(ref?new URL(ref).hostname:'direct');
     const medium=q.get('utm_medium')||(ref?'referral':'none');
     return {
