@@ -1,0 +1,21 @@
+const { chromium } = require('playwright');
+const assert=require('node:assert/strict');
+(async()=>{
+ const browser=await chromium.launch({headless:true});
+ for(const width of [1440,390]){
+ const page=await browser.newPage({viewport:{width,height:1000}});let ga=0;page.on('request',r=>{if(r.url().includes('googletagmanager'))ga++});
+ await page.goto('http://localhost:8765/help/');await page.getByRole('button',{name:'No thanks'}).click();
+ await page.screenshot({path:`/tmp/help-${width}.png`,fullPage:true});
+ assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ await page.getByText('Vacuum / pumpdown trouble',{exact:true}).click();await page.getByText('Equipment is down',{exact:true}).click();await page.getByRole('button',{name:'Add a little context'}).click();
+ await page.locator('[name=detail]').fill('Pressure stalled at 100 microns <script>alert(1)</script>');await page.locator('[name=equipment]').fill('Furnace 4');await page.getByRole('button',{name:'See my problem brief'}).click();
+ assert((await page.locator('.brief').innerText()).includes('<script>alert(1)</script>'));
+ const download=page.waitForEvent('download');await page.getByRole('button',{name:'Save brief',exact:true}).click();assert.equal((await download).suggestedFilename(),'equipment-problem-brief.txt');
+ await page.emulateMedia({media:'print'});assert.equal(await page.locator('.contact').isVisible(),false);await page.pdf({path:`/tmp/help-${width}.pdf`,format:'Letter'});await page.emulateMedia({media:'screen'});
+ let sent=[];await page.route('**/submit-assessment.php',async route=>{sent.push(route.request().postDataJSON());await route.fulfill({status:sent.length===1?502:200,contentType:'application/json',body:JSON.stringify({ok:sent.length>1})})});
+ await page.locator('[name=name]').fill('Test User');await page.locator('[name=email]').fill('test@example.com');await page.getByRole('button',{name:'Send to Bear & Croc',exact:true}).click();await page.getByText('We couldn’t confirm the send.',{exact:false}).waitFor();
+ await page.getByRole('button',{name:'Try sending again'}).click();await page.getByText('Your brief has been sent',{exact:false}).waitFor();assert.equal(sent[0].leadId,sent[1].leadId);assert.equal(ga,0);
+ await page.getByRole('button',{name:'Edit details'}).click();assert.equal(await page.locator('[name=equipment]').inputValue(),'Furnace 4');await page.getByRole('button',{name:'See my problem brief'}).click();await page.getByRole('button',{name:'Send to Bear & Croc',exact:true}).click();await page.getByText('Your brief has been sent',{exact:false}).waitFor();assert.notEqual(sent[1].leadId,sent[2].leadId);
+ await page.close();console.log(width+': mobile/desktop flow, export, print, retry, editing, consent passed');
+ }await browser.close();
+})();

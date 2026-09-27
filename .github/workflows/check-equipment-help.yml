@@ -1,0 +1,35 @@
+name: Check equipment help
+on:
+  pull_request:
+    paths: ['V2/**', 'tests/**', '.github/workflows/check-equipment-help.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check syntax
+        run: |
+          php -l V2/submit-assessment.php
+          node --check V2/help/help.js
+          node --check V2/help/analytics.js
+      - name: Install browser test tools
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Exercise customer journey
+        run: |
+          python3 -m http.server 8765 --directory V2 > /tmp/help-server.log 2>&1 &
+          node tests/equipment-help.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: equipment-help-preview
+          path: |
+            /tmp/help-*.png
+            /tmp/help-*.pdf

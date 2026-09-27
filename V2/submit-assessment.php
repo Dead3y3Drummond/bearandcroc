@@ -46,7 +46,7 @@ if (!is_array($input)) {
 }
 
 function clean($value, $max = 200) {
-    $value = trim((string)$value);
+    $value = is_scalar($value) ? trim((string)$value) : '';
     $value = preg_replace('/[\x00-\x1F\x7F]/u', ' ', $value);
     return mb_substr($value, 0, $max);
 }
@@ -54,7 +54,7 @@ function clean($value, $max = 200) {
 $kind = clean($input['kind'] ?? 'assessment', 30);
 $name = clean($input['name'] ?? '', 120);
 $company = clean($input['company'] ?? '', 160);
-$email = filter_var(trim((string)($input['email'] ?? '')), FILTER_VALIDATE_EMAIL);
+$email = filter_var(clean($input['email'] ?? '', 254), FILTER_VALIDATE_EMAIL);
 $phone = clean($input['phone'] ?? '', 80);
 $leadId = clean($input['leadId'] ?? '', 100);
 $attr = is_array($input['attribution'] ?? null) ? $input['attribution'] : [];
@@ -84,7 +84,29 @@ $sourceFields = [
     'Submission page' => clean($attr['submissionPage'] ?? '', 600) ?: '-'
 ];
 
-if ($kind === 'contact') {
+if ($kind === 'reactive') {
+    $p = is_array($input['problem'] ?? null) ? $input['problem'] : [];
+    $symptom = clean($p['symptom'] ?? '', 100);
+    $impact = clean($p['impact'] ?? '', 100);
+    if (!$symptom || !$impact || !preg_match('/^[a-zA-Z0-9-]{10,100}$/', $leadId)) {
+        http_response_code(422);
+        echo json_encode(['ok' => false, 'error' => 'Concern, impact and reference are required']);
+        exit;
+    }
+    $fields = [
+        'Name' => $name, 'Email' => $email, 'Company' => $company ?: '-', 'Phone' => $phone ?: '-',
+        'Concern' => $symptom, 'Production impact' => $impact,
+        'First noticed' => clean($p['started'] ?? '', 160) ?: 'Not specified',
+        'Customer description' => clean($p['detail'] ?? '', 2000) ?: 'To discuss',
+        'Recent changes / work attempted' => clean($p['changes'] ?? '', 2000) ?: 'Not specified',
+        'Equipment' => clean($p['equipment'] ?? '', 160) ?: 'To be identified',
+        'Facility / location' => clean($p['site'] ?? '', 160) ?: 'To be confirmed',
+        'Record basis' => 'Customer-reported information; follow-up requested. No diagnosis or service booking.'
+    ];
+    $subject = 'Equipment Help — ' . $impact . ' — ' . ($company ?: $name);
+    $tagValue = 'equipment-help';
+    $heading = 'Bear & Croc Equipment Problem Brief';
+} elseif ($kind === 'contact') {
     $message = clean($input['message'] ?? '', 4000);
     if (!$message) {
         http_response_code(422);
@@ -163,7 +185,8 @@ curl_setopt_array($ch, [
     CURLOPT_TIMEOUT => 15,
     CURLOPT_HTTPHEADER => [
         'Authorization: Bearer ' . $apiKey,
-        'Content-Type: application/json'
+        'Content-Type: application/json',
+        ...($kind === 'reactive' ? ['Idempotency-Key: equipment-help/' . $leadId] : [])
     ],
     CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
 ]);
