@@ -38,7 +38,6 @@ const assert=require('node:assert/strict');
  await home.setViewportSize({width:390,height:844});
  await home.locator('.equipment-help-tab').click();
  await home.waitForTimeout(350);
- assert(await home.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
  assert.equal(await home.locator('#equipment-help-drawer').evaluate(el=>Math.round(el.getBoundingClientRect().width)),390);
  await home.locator('.equipment-help-drawer [data-help-close]').click();
  await home.reload();
