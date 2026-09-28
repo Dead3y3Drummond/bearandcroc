@@ -1,11 +1,16 @@
 # Equipment Help
 
 Customer entry: `/help/`. The homepage links to it from navigation and the hero.
+On Bear & Croc, those links and a persistent equipment-help tab open the same
+journey in a native right-side drawer. The standalone page remains the external
+handoff destination for Heat Treat Supply and other ecosystem properties.
 
 A specific equipment concern becomes a customer-reported brief in three steps:
 concern and production impact, optional context, then a brief the visitor can
 save as text or print/save as PDF. Contact details are requested only when the
 visitor chooses Bear & Croc follow-up. Unknowns are explicitly preserved.
+Visitors who do not want to classify the issue can choose **Just describe it**
+and begin with one required plain-language sentence instead.
 
 The existing `submit-assessment.php` endpoint accepts `kind: reactive` and emails
 the structured brief to the existing sales inbox, with customer Reply-To,

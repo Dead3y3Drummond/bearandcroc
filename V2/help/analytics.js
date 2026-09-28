@@ -4,6 +4,7 @@
   const consentKey='heat_treat_analytics_consent_v1';
   const firstTouchKey='bc_first_touch_v1';
   const latestTouchKey='bc_latest_touch_v1';
+  const embedded=new URLSearchParams(location.search).get('embed')==='1';
 
   const safeUrl=value=>{
     try{return value?new URL(value,location.href).toString():''}catch{return ''}
@@ -53,7 +54,7 @@
   }
 
   function loadAnalytics(){
-    if(readConsent()!=='granted'||window.__heatTreatGaLoaded)return;
+    if(embedded||readConsent()!=='granted'||window.__heatTreatGaLoaded)return;
     window.__heatTreatGaLoaded=true;
     window.dataLayer=window.dataLayer||[];
     window.gtag=window.gtag||function(){window.dataLayer.push(arguments)};
@@ -96,7 +97,7 @@
   if(readConsent()==='granted'){
     rememberAttribution();
     loadAnalytics();
-  }else if(!readConsent()){
+  }else if(!readConsent()&&!embedded){
     if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',showConsentPrompt,{once:true});
     else showConsentPrompt();
   }
@@ -119,6 +120,10 @@
   };
   const leadId=()=>crypto.randomUUID?crypto.randomUUID():'bc-'+Date.now()+'-'+Math.random().toString(36).slice(2,10);
   const track=(name,params={})=>{
+    if(embedded){
+      if(name==='generate_lead')parent.postMessage({type:'bc-help-lead',leadId:params.lead_id},location.origin);
+      return;
+    }
     if(readConsent()!=='granted'||!window.gtag)return;
     try{window.gtag('event',name,params)}catch{}
   };
