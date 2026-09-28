@@ -162,6 +162,7 @@
   window.addEventListener('message',event=>{
     if(event.origin!==location.origin||event.source!==helpFrame?.contentWindow)return;
     if(event.data?.type==='bc-help-lead')track('generate_lead',{lead_type:'equipment_problem',lead_id:event.data.leadId});
+    if(event.data?.type==='bc-help-close')closeHelp();
   });
 
   const form=document.getElementById('health-form'), result=document.getElementById('result');

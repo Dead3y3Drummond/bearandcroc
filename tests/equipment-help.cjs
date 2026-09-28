@@ -30,7 +30,7 @@ const assert=require('node:assert/strict');
  await drawer.getByRole('button',{name:'Add a little context'}).click();
  await drawer.getByRole('button',{name:'See my problem brief'}).click();
  await drawer.getByText('Your problem, in one place.',{exact:true}).waitFor();
- await home.locator('body').press('Escape');
+ await drawer.locator('body').press('Escape');
  assert.equal(await home.locator('#equipment-help-drawer').getAttribute('aria-hidden'),'true');
  assert(await home.locator('.equipment-help-tab').isVisible());
  await home.setViewportSize({width:390,height:844});
