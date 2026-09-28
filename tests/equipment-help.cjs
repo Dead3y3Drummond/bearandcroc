@@ -37,7 +37,7 @@ const assert=require('node:assert/strict');
  await home.locator('.equipment-help-tab').click();
  assert(await home.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
  assert.equal(await home.locator('#equipment-help-drawer').evaluate(el=>Math.round(el.getBoundingClientRect().width)),390);
- await home.locator('[data-help-close]').click();
+ await home.locator('.equipment-help-drawer [data-help-close]').click();
  await home.reload();
  await home.locator('.equipment-help-tab').click();
  await drawer.getByRole('button',{name:'Just describe it',exact:true}).click();
