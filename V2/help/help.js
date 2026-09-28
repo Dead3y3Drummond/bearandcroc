@@ -1,6 +1,7 @@
 (() => {
 'use strict';
 const root=document.getElementById('screen');let step=0,busy=false,sent=false;
+if(new URLSearchParams(location.search).get('embed')==='1')document.body.classList.add('embed');
 const a=window.bcHelpAnalytics;const state={symptom:'',impact:'',started:'',detail:'',changes:'',equipment:'',site:'',name:'',company:'',email:'',phone:'',website:''};let leadId=a.leadId();let pending=null;
 const symptoms=['Vacuum / pumpdown trouble','Heating / temperature trouble','Cooling / quench trouble','Controls / unexpected shutdown','Mechanical trouble','Something else / not sure'];
 const impacts=['Equipment is down','Production is reduced','Problem comes and goes','Still running; concerned'];

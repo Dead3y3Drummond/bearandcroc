@@ -1,6 +1,9 @@
 # Equipment Help
 
 Customer entry: `/help/`. The homepage links to it from navigation and the hero.
+On Bear & Croc, those links and a persistent equipment-help tab open the same
+journey in a native right-side drawer. The standalone page remains the external
+handoff destination for Heat Treat Supply and other ecosystem properties.
 
 A specific equipment concern becomes a customer-reported brief in three steps:
 concern and production impact, optional context, then a brief the visitor can

@@ -131,6 +131,39 @@
     },{passive:true});
   };
 
+  const helpDrawer=document.getElementById('equipment-help-drawer');
+  const helpBackdrop=document.querySelector('.equipment-help-backdrop');
+  const helpFrame=helpDrawer?.querySelector('iframe');
+  let helpTrigger=null;
+  function openHelp(trigger){
+    if(!helpDrawer)return;
+    helpTrigger=trigger||document.activeElement;
+    if(helpFrame&&!helpFrame.src)helpFrame.src=helpFrame.dataset.src;
+    helpDrawer.classList.add('open');
+    helpDrawer.setAttribute('aria-hidden','false');
+    helpBackdrop.hidden=false;
+    document.body.classList.add('help-drawer-open');
+    document.querySelectorAll('[data-open-help]').forEach(el=>el.setAttribute('aria-expanded','true'));
+    helpDrawer.querySelector('[data-help-close]').focus();
+    track('equipment_help_open',{placement:trigger?.classList.contains('equipment-help-tab')?'persistent_tab':'site_link'});
+  }
+  function closeHelp(){
+    if(!helpDrawer||!helpDrawer.classList.contains('open'))return;
+    helpDrawer.classList.remove('open');
+    helpDrawer.setAttribute('aria-hidden','true');
+    helpBackdrop.hidden=true;
+    document.body.classList.remove('help-drawer-open');
+    document.querySelectorAll('[data-open-help]').forEach(el=>el.setAttribute('aria-expanded','false'));
+    helpTrigger?.focus();
+  }
+  document.querySelectorAll('[data-open-help]').forEach(el=>el.addEventListener('click',event=>{event.preventDefault();openHelp(el)}));
+  document.querySelectorAll('[data-help-close]').forEach(el=>el.addEventListener('click',closeHelp));
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')closeHelp()});
+  window.addEventListener('message',event=>{
+    if(event.origin!==location.origin||event.source!==helpFrame?.contentWindow)return;
+    if(event.data?.type==='bc-help-lead')track('generate_lead',{lead_type:'equipment_problem',lead_id:event.data.leadId});
+  });
+
   const form=document.getElementById('health-form'), result=document.getElementById('result');
   const risk=document.getElementById('risk'), headline=document.getElementById('headline'), copy=document.getElementById('copy'), notes=document.getElementById('notes');
   const one=n=>form.querySelector(`[name="${n}"]:checked`);
