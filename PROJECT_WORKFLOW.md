@@ -25,4 +25,4 @@ Bear & Croc is hosted on HostMonster. Merges to `main` affecting `V2/**` deploy 
 ## Visual system
 - Read [brand/README.md](brand/README.md) before visual work.
 - Website and simple intake forms use the website family; interactive tools use the app family. Forms within an app inherit its family.
-- The initial shared token reference is a draft and is not imported into deployed screens. Cross-repository adoption is tracked in the brand reference.
+- Reference v1.0.0 is adopted as documentation only. It is not imported into deployed screens and does not authorize runtime or asset changes. Read BRAND.md for this property's family.

@@ -1,6 +1,8 @@
 # Bear & Croc visual system
 
-Reference v0.1.0-draft · Decision recorded October 6, 2026 (America/Detroit)
+Reference v1.0.0 · Adopted October 7, 2026 (America/Detroit)
+
+**Pillar of truth:** this folder in `Dead3y3Drummond/bearandcroc`, on `main`. Approved scope: reference and project documentation only.
 
 ## Decision
 
@@ -15,11 +17,11 @@ Furnace Trolls belongs to the app family with an established game variant. Prese
 
 Classify by the user's activity and the containing product. A contact form or intake remains in the website family even if it has validation, multiple steps, conditional fields or a calculated result. An ongoing workspace with saved cases, diagnosis, maps, analysis, simulation or play belongs to the app family. Forms inside that workspace inherit the app theme. Public/private access, hosting provider and framework do not determine visual family.
 
-TRBLSHTR's case workspace belongs to the app family under this decision. Its audited source currently uses the warm website palette; alignment is a separate implementation task. Its positioning remains thermal process troubleshooting, with vacuum furnaces currently supported and combustion in development.
+TRBLSHTR's case workspace belongs to the app family under this decision. The initial source audit recorded its warm website palette; the correction is handled separately in the TRBLSHTR project thread. That historical audit is not a claim about the current deployed screen. Its positioning remains thermal process troubleshooting, with vacuum furnaces currently supported and combustion in development.
 
 ## Status and scope
 
-This reference records the user's two-family direction and extracts values already present in source. It proposes a common token vocabulary; it does not claim a shared component system is installed. Existing applications still own their styles. No runtime stylesheet imports, live screens or deployments change in this draft.
+This reference records the user's two-family direction and extracts values already present in source. It establishes the reference vocabulary without installing a shared component system. Existing applications still own their styles. Adoption is documentation-only: no runtime imports, styling, screens, behavior, assets, domains, access settings or deployments are changed. Integrating tokens or components requires a separately authorized implementation task.
 
 The website and app palettes below are source-derived. Small details such as secondary button fills differ between Lab and Intel; those differences need review during component consolidation. Game-specific values are deliberate exceptions. A color's presence in a stylesheet does not mean it is suitable for every foreground/background pairing.
 
@@ -55,7 +57,7 @@ Game variant: background `#11181D`, cabinet `#1B252C`, text `#E7DFCE`, muted bra
 | Trolls main heading | Impact, 'Arial Black', sans-serif | Heavy display treatment, weight 900 |
 | Trolls buttons | ui-monospace, monospace | 700 weight, 13px in the base rule |
 
-These are system-font stacks, not bundled font files. They can render differently across devices. This draft preserves that fact rather than introducing a different typeface. The Lab separately bundles `ReportSans.ttf`, `ReportSans-Bold.ttf` and `ReportSans-LICENSE.txt` for report generation; the supplied license identifies DejaVu fonts. Those report fonts are not the app UI typeface.
+These are system-font stacks, not bundled font files. They can render differently across devices. This reference preserves that fact rather than introducing a different typeface. The Lab separately bundles `ReportSans.ttf`, `ReportSans-Bold.ttf` and `ReportSans-LICENSE.txt` for report generation; the supplied license identifies DejaVu fonts. Those report fonts are not the app UI typeface.
 
 A future exact-font adoption must include the licensed font bytes, family/style/weight, version, origin, checksum and license beside the file. Do not copy proprietary system font binaries into the repository. Review a typeset proof before changing an established stack. Never identify the font in a raster or generated logo by guesswork.
 
@@ -81,24 +83,41 @@ Files were read from their current GitHub default branches on October 6 local ti
 
 The earlier font/color package was verified at `westernmenace`, branch `preview/proof-03-editorial-cms`, `docs/branding.md`. It records the Western Menace palette and font stacks, plus a pinned Anton candidate and license. It is not a Bear & Croc-wide standard, and Anton is not established as a Bear & Croc font.
 
-The main Bear & Croc repository audit found website styles and a shared project workflow, but no central two-family brand package. This draft fills that documentation gap. It is not evidence that no older asset exists elsewhere.
+The main Bear & Croc repository audit found website styles and a shared project workflow, but no central two-family brand package. This adopted reference fills that documentation gap. It is not evidence that no older asset exists elsewhere.
 
 ## Make this survive a change of thread
 
-Use this GitHub folder as the reference address once adopted. Each product should carry a short local `BRAND.md` with its family, approved variant, central-reference URL and pinned commit/version. Link it from the product README and its `AGENTS.md` or equivalent development instructions. Preserve existing repository instructions when adding that pointer.
+Use this GitHub folder as the authoritative reference address. Each product should carry a short local `BRAND.md` with its family, approved variant, central-reference URL and pinned commit/version. Link it from the product README and its `AGENTS.md` or equivalent development instructions. Preserve existing repository instructions when adding that pointer.
 
 Before visual work in any thread: read the local brand record, retrieve its pinned reference, and inspect the existing screen. After work: record intentional departures and update the handoff. A chat pin or this repository's AGENTS file alone does not cause unrelated threads or repositories to load this standard.
 
-For the stronger implementation lock, vendor the versioned tokens into each product or consume a pinned shared package. Do not fetch a mutable stylesheet from GitHub at page-load time. Shared buttons, inputs, panels and headers should follow as reviewed component work, using the appropriate family.
+The CSS/JSON files in this folder are reference material only. Do not import, vendor or wire them into applications as part of adopting this record. Any future token/component integration is a separately scoped implementation change. Do not fetch a mutable stylesheet from GitHub at page-load time.
 
-Capture accepted desktop and mobile screenshots for each reference screen, then compare meaningful visual changes against them before release. Those baseline screenshots and automated checks are not part of this draft. Accessibility checks still apply to actual color pairs, focus indicators and controls.
+Capture accepted desktop and mobile screenshots for each reference screen, then compare meaningful visual changes against them before release. Those baseline screenshots and automated checks have not been established by this documentation-only adoption; no new artwork or asset exports are being produced. Accessibility checks still apply to actual color pairs, focus indicators and controls.
 
-## Adoption work remaining
+## Project registry
 
-1. Merge/adopt the reference and record its stable version.
-2. Add local family/version pointers in each product repository and handoff.
-3. Integrate tokens and components as each product is next worked on; start with aligning TRBLSHTR to the app family.
-4. Gather approved logo masters and any licensed font files, with provenance.
-5. Capture desktop/mobile visual baselines and add targeted checks that catch unintended drift.
+| Repository / property | Family | Local reference |
+| --- | --- | --- |
+| `bearandcroc`: website, Continuity assessment and simple intakes | website | `BRAND.md` |
+| `BNC-labs`: Furnace Lab and TUS Workbench | app | `BRAND.md` |
+| `BNC-intel`: Interactive Intel | app | `BRAND.md` |
+| `TRBLSHTR`: thermal process troubleshooting | app | `BRAND.md` |
+| `Furnace-Trolls`: Night Shift | app, game variant | `BRAND.md` |
 
-For each design change, distinguish proposed, approved, implemented and deployed. Update this reference, tokens and consuming project versions together when an intentional family-wide change is adopted.
+This registry declares the reference family. It is not a claim that every deployed pixel conforms or that a shared stylesheet is installed. Other intake properties inherit the website-family rule when scoped as Bear & Croc intakes; this adoption does not change separate Heat Treat Supply, HeatTreat.tech or other brand properties.
+
+## Change control
+
+The user's October 7 authorization is for a reference / pillar of truth, with no actual changes to properties or assets. Repository README, BRAND and development/handoff instructions carry the reference. Preserve current source, all approved assets and all live properties.
+
+For future visual work, load the local `BRAND.md`, then its pinned central commit/version. Check the current central record for a newer approved decision; reconcile differences explicitly instead of silently upgrading. Current explicit user instructions take precedence. Record intentional approved variants and new reference versions here. Preserve historical versions through Git.
+
+The root `AGENTS.md` makes this reference discoverable to development tools that read repository instructions. It is not an automatic cross-thread enforcement service. New projects must be given a local family/version pointer.
+
+An asset inventory, exact licensed font packaging, accepted screenshot baselines and runtime integration remain separate work. Their absence does not authorize replacement artwork, a different typeface, a redesign or a deployment.
+
+## Adoption history
+
+- October 6, 2026: two-family direction recorded and source values audited; draft prepared in PR #5.
+- October 7, 2026: Dustin authorized adoption as the reference/pillar of truth only, explicitly excluding actual property or asset changes. Reference version 1.0.0 records that boundary.
