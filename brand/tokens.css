@@ -1,0 +1,51 @@
+/* Bear & Croc visual reference v0.1.0-draft.
+ * Opt-in tokens only: no global styling and no runtime import yet.
+ * Game is a variant of the app family, not a third brand.
+ */
+
+[data-bc-theme="website"] {
+  --bc-background: #f1f0ec;
+  --bc-panel: #e3e0d8;
+  --bc-header: #222422;
+  --bc-footer: #151614;
+  --bc-text: #20211f;
+  --bc-muted: #666760;
+  --bc-border: #aaa89f;
+  --bc-primary: #a45f3a;
+  --bc-on-primary: #ffffff;
+  --bc-on-header: #f7f6f2;
+  --bc-font-body: Arial, Helvetica, sans-serif;
+  --bc-font-heading: Arial, Helvetica, sans-serif;
+  --bc-control-radius: 0px;
+}
+
+[data-bc-theme="app"] {
+  --bc-background: #101820;
+  --bc-panel: #17232d;
+  --bc-text: #eff4f6;
+  --bc-muted: #a9bbc7;
+  --bc-border: #31424f;
+  --bc-primary: #f5aa42;
+  --bc-on-primary: #101820;
+  --bc-info: #69b6ef;
+  --bc-success: #7cd5ae;
+  --bc-danger: #ff8c83;
+  --bc-font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --bc-font-heading: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --bc-font-data: ui-monospace, monospace;
+  --bc-control-radius: 4px;
+}
+
+[data-bc-theme="game"] {
+  --bc-background: #11181d;
+  --bc-panel: #1b252c;
+  --bc-text: #e7dfce;
+  --bc-muted: #8c9aa0;
+  --bc-border: #53606a;
+  --bc-primary: #e9a957;
+  --bc-on-primary: #11181d;
+  --bc-font-body: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --bc-font-heading: Impact, 'Arial Black', sans-serif;
+  --bc-font-controls: ui-monospace, monospace;
+  --bc-control-radius: 0px;
+}
