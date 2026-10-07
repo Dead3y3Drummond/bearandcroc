@@ -21,3 +21,8 @@ This repository follows the Bear & Croc / Heat Treat ecosystem web-project conve
 
 ## Deployment exception: Bear & Croc
 Bear & Croc is hosted on HostMonster. Merges to `main` affecting `V2/**` deploy through the existing GitHub Actions FTPS workflow. This is the ecosystem's intentional hosting exception.
+
+## Visual system
+- Read [brand/README.md](brand/README.md) before visual work.
+- Website and simple intake forms use the website family; interactive tools use the app family. Forms within an app inherit its family.
+- Reference v1.0.0 is adopted as documentation only. It is not imported into deployed screens and does not authorize runtime or asset changes. Read BRAND.md for this property's family.
