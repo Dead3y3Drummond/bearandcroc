@@ -1,8 +1,26 @@
 # Bear & Croc visual system
 
-Reference v1.0.0 · Adopted October 7, 2026 (America/Detroit)
+Reference v1.1.0 · Brand wording adopted October 15, 2026 (America/Indiana/Indianapolis)
 
-**Pillar of truth:** this folder in `Dead3y3Drummond/bearandcroc`, on `main`. Approved scope: reference and project documentation only.
+Visual baseline v1.0.0 · Adopted October 7, 2026 (America/Detroit)
+
+**Pillar of truth:** this folder in `Dead3y3Drummond/bearandcroc`, on `main`. Reference authority for approved visual families and brand wording. Implementation scope is recorded with each decision.
+
+## Approved brand wording
+
+Adopted October 15, 2026 (America/Indiana/Indianapolis).
+
+- **Brand line:** Built Rugged. No Compromise.
+- **Display capitals:** BUILT RUGGED. NO COMPROMISE.
+- **Staff sign-in heading:** A Rugged Build starts here.
+
+Keep this word order. "Rugged Built" is the superseded formulation; "Western Built" was considered but not adopted. The staff heading is a welcome line, not a replacement for the brand line.
+
+Use the approved line in new Bear & Croc material and when revising active brand-bearing copy. It need not appear on every screen, form or technical document. Preserve issued quotations, signed documents, completed job records and historical releases. Review reusable templates and editable artwork before their next use; do not regenerate completed records just to change a slogan.
+
+This copy decision preserves the existing website, app and game visual families, typography, colors and identity artwork. The visual token baseline remains v1.0.0. Separate Heat Treat Supply, HeatTreat.tech and creative brands retain their own identities.
+
+The October 15 implementation covers the main website footer and Staff sign-in wording. Other runtime changes remain separately scoped.
 
 ## Decision
 
@@ -20,6 +38,8 @@ Classify by the user's activity and the containing product. A contact form or in
 TRBLSHTR's case workspace belongs to the app family under this decision. The initial source audit recorded its warm website palette; the correction is handled separately in the TRBLSHTR project thread. That historical audit is not a claim about the current deployed screen. Its positioning remains thermal process troubleshooting, with vacuum furnaces currently supported and combustion in development.
 
 ## Status and scope
+
+The visual adoption described below was documentation-only. The October 15, 2026 copy approval above adds brand wording and the two expressly scoped copy updates; it does not restyle products.
 
 This reference records the user's two-family direction and extracts values already present in source. It establishes the reference vocabulary without installing a shared component system. Existing applications still own their styles. Adoption is documentation-only: no runtime imports, styling, screens, behavior, assets, domains, access settings or deployments are changed. Integrating tokens or components requires a separately authorized implementation task.
 
@@ -101,7 +121,7 @@ Capture accepted desktop and mobile screenshots for each reference screen, then 
 | --- | --- | --- |
 | `bearandcroc`: website, Continuity assessment and simple intakes | website | `BRAND.md` |
 | `BNC-labs`: Furnace Lab and TUS Workbench | app | `BRAND.md` |
-| `BNC-intel`: Interactive Intel | app | `BRAND.md` |
+| `BNC-intel`: Interactive Intel and Staff workspace | app | `BRAND.md`; `staff/README.md` |
 | `TRBLSHTR`: thermal process troubleshooting | app | `BRAND.md` |
 | `Furnace-Trolls`: Night Shift | app, game variant | `BRAND.md` |
 
@@ -121,3 +141,5 @@ An asset inventory, exact licensed font packaging, accepted screenshot baselines
 
 - October 6, 2026: two-family direction recorded and source values audited; draft prepared in PR #5.
 - October 7, 2026: Dustin authorized adoption as the reference/pillar of truth only, explicitly excluding actual property or asset changes. Reference version 1.0.0 records that boundary.
+
+- October 15, 2026: Dustin adopted **Built Rugged. No Compromise.** as the brand line and **A Rugged Build starts here.** for Staff sign-in. Reference v1.1.0 adds copy guidance; visual tokens remain v1.0.0. Apply current copy to living material and new work without rewriting historical records.
